@@ -1,9 +1,9 @@
 <h1 align="center">
-  inquirer-file-selector
+  inquirer-fs-selector
 </h1>
 
 <p align="center">
-  An file selector prompt implementation for <a href="https://github.com/SBoudrias/Inquirer.js">Inquirer.js</a>.
+  An file or dir selector prompt implementation for <a href="https://github.com/SBoudrias/Inquirer.js">Inquirer.js</a>.
 </p>
 
 <div align="center">
@@ -40,6 +40,7 @@ const filePath = await fileSelector({
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `message` | `string` | ✔ | The message to display in the prompt. |
+| `dir` | `boolena` | ✔ | Allow select dir. |
 | `path` | `string` | | The path to the directory where it will be started.<br/> **Default**: `process.cwd()` |
 | `pageSize` | `number` | | The maximum number of items to display in the list.<br/> **Default**: `10` |
 | `match` | `(file: Item) => boolean` | | A function to filter the files.<br/> If not provided, all files will be included. |

@@ -1,5 +1,5 @@
 {
-  "name": "inquirer-fs-selector",
+  "name": "@eliyya/inquirer-fs-selector",
   "author": "Brian Fernandez",
   "description": "Inquerer file selector prompt.",
   "version": "0.3.2",
@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/br14n-sol/inquirer-file-selector.git"
+    "url": "git+https://github.com/eliyya/inquirer-fs-selector.git"
   },
   "bugs": {
-    "url": "https://github.com/br14n-sol/inquirer-file-selector/issues"
+    "url": "https://github.com/eliyya/inquirer-fs-selector/issues"
   },
-  "homepage": "https://github.com/br14n-sol/inquirer-file-selector#readme",
+  "homepage": "https://github.com/eliyya/inquirer-fs-selector#readme",
   "keywords": [
     "inquirer",
     "file",
