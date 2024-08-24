@@ -17,6 +17,20 @@ export function isEscapeKey(key: KeypressEvent): boolean {
 }
 
 /**
+ * Check if the given key is the left key
+ */
+export function isLeftKey(key: KeypressEvent): boolean {
+  return key.name === 'left'
+}
+
+/**
+ * Check if the given key is the right key
+ */
+export function isRightKey(key: KeypressEvent): boolean {
+  return key.name === 'right'
+}
+
+/**
  * Add a trailing slash at the end of the given path if it doesn't already have one
  */
 export function ensureTrailingSlash(dir: string): string {
@@ -91,4 +105,13 @@ export function sortItems(items: Item[], hideNonMatch: boolean): Item[] {
       return a.name.localeCompare(b.name)
     })
     .filter(item => !hideNonMatch || !item.isDisabled)
+}
+
+/**
+ * Parse the response to done
+ */
+export function parseDone(response: string, dir = false): string {
+  if (!dir) return response
+  if (fs.statSync(response).isDirectory()) return response
+  return path.dirname(response)
 }

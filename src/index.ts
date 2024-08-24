@@ -22,7 +22,10 @@ import {
   getDirItems,
   getMaxLength,
   isEscapeKey,
+  isLeftKey,
+  isRightKey,
   matchCheck,
+  parseDone,
   sortItems
 } from './utils.js'
 
@@ -52,7 +55,8 @@ export default createPrompt<string, FileSelectorConfig>((config, done) => {
     pageSize = 10,
     hideNonMatch = false,
     disabledLabel = ' (not allowed)',
-    allowCancel = false
+    allowCancel = false,
+    dir = false
   } = config
   const cancelText = config.cancelText || config.canceledLabel || 'Canceled.'
   const emptyText =
@@ -96,12 +100,23 @@ export default createPrompt<string, FileSelectorConfig>((config, done) => {
 
   useKeypress((key, rl) => {
     if (isEnterKey(key)) {
+      if (dir) {
+        setStatus('done')
+        done(parseDone(activeItem.path))
+      } else if (activeItem.isDir) {
+        setCurrentDir(activeItem.path)
+        setActive(bounds.first)
+      } else if (!activeItem.isDisabled) {
+        setStatus('done')
+        done(parseDone(activeItem.path))
+      }
+    } else if (isRightKey(key)) {
       if (activeItem.isDir) {
         setCurrentDir(activeItem.path)
         setActive(bounds.first)
       } else if (!activeItem.isDisabled) {
         setStatus('done')
-        done(activeItem.path)
+        done(parseDone(activeItem.path))
       }
     } else if (isUpKey(key) || isDownKey(key)) {
       rl.clearLine(0)
@@ -119,12 +134,12 @@ export default createPrompt<string, FileSelectorConfig>((config, done) => {
 
         setActive(next)
       }
-    } else if (isBackspaceKey(key)) {
+    } else if (isBackspaceKey(key) || isLeftKey(key)) {
       setCurrentDir(path.resolve(currentDir, '..'))
       setActive(bounds.first)
     } else if (isEscapeKey(key) && allowCancel) {
       setStatus('canceled')
-      done('canceled')
+      done(parseDone('canceled'))
     }
   })
 
@@ -165,7 +180,7 @@ export default createPrompt<string, FileSelectorConfig>((config, done) => {
   const header = theme.style.currentDir(ensureTrailingSlash(currentDir))
   const helpTip = useMemo(() => {
     const helpTipLines = [
-      `${theme.style.key(figures.arrowUp + figures.arrowDown)} navigate, ${theme.style.key('<enter>')} select or open directory`,
+      `${theme.style.key(figures.arrowLeft + figures.arrowUp + figures.arrowDown + figures.arrowRight)} navigate, ${theme.style.key('<enter>')} ${dir ? 'open directory' : 'select or open directory'}`,
       `${theme.style.key('<backspace>')} go back${allowCancel ? `, ${theme.style.key('<esc>')} cancel` : ''}`
     ]
 

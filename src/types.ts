@@ -141,4 +141,8 @@ export type FileSelectorConfig = {
    * The theme to use for the file selector.
    */
   theme?: PartialDeep<Theme<FileSelectorTheme>>
+  /**
+   * If true, allow the user to select directories.
+   */
+  dir?: boolean
 }
